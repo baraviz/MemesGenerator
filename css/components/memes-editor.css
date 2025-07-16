@@ -1,4 +1,23 @@
 /* GENERAL */
+button {
+    background-color: var(--button);
+    color: var(--text);
+    border: 0px;
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 24px;
+
+    cursor: pointer;
+
+    transition: 0.4px;
+}
+
+button:hover {
+    background-color: var(--button-hover);
+}
+
+
+/* CANVAS CONTAINER */
 .memes-editor-section {
     display: flex;
     margin: 8px 0;
@@ -15,15 +34,191 @@
     border-radius: 16px;
 }
 
-.editor-container {
-    flex: 1;
-    height: 500px;
-    background-color: var(--nav-bg);
-    border-radius: 16px;
-}
-
 canvas {
     display: flex;
     background-color: var(--main-bg);
     border-radius: 8px;
 }
+
+/* EDITOR CONTAINER */
+.download-btn,
+.share-btn {
+    background-color: var(--button);
+    border-radius: 4px;
+    color: var(--text);
+    padding: 4px 8px;
+
+    text-decoration: none;
+    justify-self: center;
+    align-self: center;
+
+    transition: 0.4s;
+}
+
+.download-btn:hover,
+.share-btn:hover {
+    background-color: var(--button-hover);
+    border-radius: 4px;
+    color: var(--text);
+    padding: 4px 8px;
+    text-decoration: none;
+}
+
+#edit-line-text {
+    background-color: var(--main-bg);
+    color: var(--white);
+
+    border: 0px;
+    border-radius: 4px;
+
+    width: 95%;
+    height: 80%;
+    padding: 4px 8px;
+
+
+
+}
+
+/* EDITOR GRID AREAS */
+
+/* LINE CRUD */
+.line-content {
+    grid-area: line-crud;
+}
+.add-line-btn {
+    grid-area: add-line-btn;
+}
+.change-line-btn {
+    grid-area: change-line-btn;
+}
+.delete-line-btn {
+    grid-area: delete-line-btn;
+}
+.line-crud {
+    grid-area: line-crud;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px;
+
+    grid-template-areas:
+        'line-crud line-crud line-crud'
+        'add-line-btn change-line-btn delete-line-btn'
+    ;
+}
+
+
+/* TEXT MANIPULATION */
+.bigger-text-btn {
+    grid-area: bigger-text-btn;
+}
+.smaller-text-btn {
+    grid-area: smaller-text-btn;
+}
+.text-align-left {
+    grid-area: text-align-left;
+}
+.text-align-right {
+    grid-area: text-align-right;
+}
+.text-align-center {
+    grid-area: text-align-center;
+}
+.change-color {
+    grid-area: change-color;
+}
+.text-manipulation {
+    grid-area: text-manipulation;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px;
+
+    grid-template-areas:
+        'bigger-text-btn smaller-text-btn text-align-left text-align-center text-align-right'
+        'change-color change-color change-color change-color change-color'
+    ;
+}
+
+
+/* STICKERS CONTAINER */
+.stickers-container {
+    grid-area: stickers-container;
+}
+
+
+
+.download-btn {
+    grid-area: download-btn;
+}
+
+.share-btn {
+    grid-area: share-btn;
+}
+
+
+.editor-container {
+    flex: 1;
+    height: 500px;
+    background-color: var(--nav-bg);
+    border-radius: 16px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 8px;
+
+    grid-template-areas:
+        'line-crud line-crud'
+        'text-manipulation text-manipulation'
+        'stickers-container stickers-container'
+        'download-btn share-btn'
+    ;
+}
+
+
+.change-color {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+}
+
+/* stickers-container */
+.stickers-container {
+    display: flex;
+    gap: 8px;
+}
+
+.stickers-container button {
+    width: 100%;
+}
+
+
+hr {
+    width:50%;
+    text-align:left;
+    margin-left: 0;
+}
+
+
+/* .add-line-btn {
+    background-color: var(--button);
+    color: var(--text);
+    border: 0px;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 24px;
+    transition: 0.4s;
+}
+
+.add-line-btn:hover {
+    background-color: var(--button-hover);
+    border-radius: 4px;
+    color: var(--text);
+    padding: 4px 8px;
+    text-decoration: none;
+} */

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/main.css">
     <title>MemeGen</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/9947244755.js" crossorigin="anonymous"></script>
 </head>
 
 <body onload="onInit()">
@@ -25,23 +26,78 @@
     <div class="memes-editor-section">
 
         <div class="canvas-container">
-            <canvas width="400" height="400"></canvas>
+            <canvas width="400" height="400" onmousedown="onDown(event)" ontouchstart="onDown(event)" onmouseup="onUp()"
+                ontouchend="onUp()" onmousemove="onMove(event)" ontouchmove="onMove(event)">
+            </canvas>
         </div>
 
         <div class="editor-container">
-            <a href="#" onclick="downloadCanvas(this)" download>Download</a>
-        </div>
 
+            <div class="line-crud">
+                <form action="" class="line-content">
+                    <label for="edit-line-text"></label>
+                    <input type="text" name="edit-line-text" id="edit-line-text" placeholder="add text">
+                </form>
+
+                <!-- CRUD line -->
+                <button class="add-line-btn" onclick="onAddLine()"><i class="fa-solid fa-plus"
+                        style="color: #ffffff;"></i></button>
+                <button class="change-line-btn"><i class="fa-solid fa-arrows-up-down"
+                        style="color: #ffffff;"></i></button>
+                <button class="delete-line-btn"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
+            </div>
+
+            <div class="text-manipulation">
+                <!-- font size -->
+                <button class="bigger-text-btn"><i class="fa-solid fa-font" style="color: #ffffff;"></i>+</button>
+                <button class="smaller-text-btn"><i class="fa-solid fa-font" style="color: #ffffff;"></i>-</button>
+
+                <!-- alignment -->
+                <button class="text-align-left"><i class="fa-solid fa-align-left" style="color: #ffffff;"></i></button>
+                <button class="text-align-right"><i class="fa-solid fa-align-right"
+                        style="color: #ffffff;"></i></button>
+                <button class="text-align-center"><i class="fa-solid fa-align-center"
+                        style="color: #ffffff;"></i></button>
+
+                <div class="change-color">
+                    <!-- change color -->
+                    <form action="" class="text-color">
+                        <label for="edit-text-color">Edit text color</label>
+                        <input type="color" name="edit-text-color" id="edit-text-color" value="#ffffff">
+                    </form>
+                    <form action="" class="stroke-color">
+                        <label for="edit-text-color">Edit text color</label>
+                        <input type="color" name="edit-text-color" id="edit-text-color" value="#ffffff">
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- add stickkers -->
+            <div class="stickers-container">
+                <button><i class="fa-solid fa-angle-left" style="color: #ffffff;"></i></button>
+                <button>😜</button>
+                <button>🤑</button>
+                <button>💩</button>
+                <button>🤬</button>
+                <button><i class="fa-solid fa-angle-right" style="color: #ffffff;"></i></button>
+            </div>
+
+            <!-- Save & Share -->
+            <a class="download-btn" href="#" onclick="downloadCanvas(this)" download>Download <i
+                    class="fa-solid fa-download fa-xs" style="color: #ffffff;"></i></a>
+            <a class="share-btn" href="#" onclick="downloadCanvas(this)">Share <i class="fa-solid fa-share-nodes fa-xs"
+                    style="color: #ffffff;"></i></a>
+
+        </div>
     </div>
 
-    <section class="select-img-container">
+    <section class="gallery-container">
         <h2>Select an image</h2>
-        <img src="media/img/1.jpg" onclick="onSelectImg(this)" />
-        <img src="media/img/2.jpg" onclick="onSelectImg(this)" />
-        <img src="media/img/3.jpg" onclick="onSelectImg(this)" />
     </section>
 
 
+    <script src="js/meme.service.js"></script>
     <script src="js/main.js"></script>
     <script src="js/utils.js"></script>
 </body>
