@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="media/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/main.css">
+    <title>MemeGen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body onload="onInit()">
+    <header>
+        <div class="topnav" id="myTopnav">
+            <a href="#home" class="active">Gallery</a>
+            <a href="#news">Memes</a>
+            <a href="#about">About</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="memes-editor-section">
+
+        <div class="canvas-container">
+            <canvas width="400" height="400"></canvas>
+        </div>
+
+        <div class="editor-container">
+            <a href="#" onclick="downloadCanvas(this)" download>Download</a>
+        </div>
+
+    </div>
+
+    <section class="select-img-container">
+        <h2>Select an image</h2>
+        <img src="media/img/1.jpg" onclick="onSelectImg(this)" />
+        <img src="media/img/2.jpg" onclick="onSelectImg(this)" />
+        <img src="media/img/3.jpg" onclick="onSelectImg(this)" />
+    </section>
+
+
+    <script src="js/main.js"></script>
+    <script src="js/utils.js"></script>
+</body>
+
+</html>

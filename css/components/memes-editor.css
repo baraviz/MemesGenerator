@@ -1,0 +1,29 @@
+/* GENERAL */
+.memes-editor-section {
+    display: flex;
+    margin: 8px 0;
+    gap: 8px;
+}
+
+.canvas-container {
+    flex: 1;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--nav-bg);
+    border-radius: 16px;
+}
+
+.editor-container {
+    flex: 1;
+    height: 500px;
+    background-color: var(--nav-bg);
+    border-radius: 16px;
+}
+
+canvas {
+    display: flex;
+    background-color: var(--main-bg);
+    border-radius: 8px;
+}

@@ -1,0 +1,15 @@
+.select-img-container h2 {
+    color: var(--text);
+}
+
+.select-img-container img {
+    width: 200px;
+    cursor: pointer;
+    filter: grayscale(1);
+}
+
+.select-img-container img:hover {
+    transition: 0.5s;
+    filter: unset;
+}
+
