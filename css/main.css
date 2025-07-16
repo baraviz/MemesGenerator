@@ -1,11 +1,11 @@
 /* VARIABLES */
-@import url(/css/variables.css);
+@import url(variables.css);
 
 /* COMPONENTS */
-@import url(/css/components/nav-bar.css);
-@import url(/css/components/bg.css);
-@import url(/css/components/memes-editor.css);
-@import url(/css/components/img-container.css);
+@import url(components/nav-bar.css);
+@import url(components/bg.css);
+@import url(components/memes-editor.css);
+@import url(components/img-container.css);
 
 /* MEDIA QUERIES */
-@import url(/css/mq.css);
+@import url(mq.css);
