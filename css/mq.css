@@ -1,5 +1,5 @@
 /* show hamburger */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
   .topnav a:not(:first-child) {display: none;}
   .topnav a.icon {
     float: right;
@@ -8,7 +8,7 @@
 }
 
 /* new link's layout for mobile */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
   .topnav.responsive {position: relative;}
   .topnav.responsive a.icon {
     position: absolute;
@@ -22,7 +22,7 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
   .memes-editor-section {
     height: 500px;
     flex-direction: column;

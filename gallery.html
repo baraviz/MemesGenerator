@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="media/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/main.css">
+    <title>MemeGen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/9947244755.js" crossorigin="anonymous"></script>
+</head>
+
+<body onload="renderImgsInGallery(gImgs)">
+    <header>
+        <div class="topnav" id="myTopnav">
+            <a href="#Gallery" class="active">Gallery</a>
+            <a href="#Memes">Memes</a>
+            <a href="#About">About</a>
+            <a href="index.html">Editor</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </header>
+
+    <div class="gallery">
+        <h2>Select an image</h2>
+        <section class="gallery-container">
+        </section>
+    </div>
+
+
+    <script src="js/main.js"></script>
+    <script src="js/meme.service.js"></script>
+    <script src="js/utils.js"></script>
+</body>
+
+</html>

@@ -9,7 +9,7 @@ const gImgs = [
 const gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
 
 // === GALLERY RENDER ===
-function renderGallery(gImgs) {
+function renderImgsInGallery(gImgs) {
     const galleryContainer = document.querySelector('.gallery-container')
     galleryContainer.innerHTML = '' // Clear previous
     gImgs.forEach(img => {
@@ -18,3 +18,15 @@ function renderGallery(gImgs) {
         `
     })
 }
+
+function renderImgsInEditor(gImgs) {
+    const galleryContainer = document.querySelector('.gallery-container')
+    galleryContainer.innerHTML = '' // Clear previous
+    gImgs.forEach(img => {
+        galleryContainer.innerHTML += `
+            <img src="${img.url}" onclick="onChangeImg(this)" class="${img.id}" />
+        `
+    })
+}
+
+

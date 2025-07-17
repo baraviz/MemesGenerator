@@ -10,9 +10,12 @@ var gElMeme
 
 // === APP INIT ===
 function onInit() {
+
+    console.log('gElImg', gElImg);
+    
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
-    renderGallery(gImgs)
+    renderImgsInEditor(gImgs)
     renderCanvas()
     onTypingText()
     onTextSizeUp()
@@ -23,11 +26,20 @@ function onInit() {
 }
 
 // === IMAGE ===
-function onSelectImg(elImg) {
+function onChangeImg(elImg) {
     gElImg = elImg
     coverCanvasWithImg(elImg)
     renderLines()
 }
+
+function onSelectImg(elImg) {
+    gElImg = elImg
+    console.log('gElImg', gElImg);
+    localStorage.setItem('gElImg', JSON.stringify(gElImg))
+    // gElImg = elImg
+    setTimeout((() => window.location.href = 'index.html'), 2000)
+}
+
 
 function coverCanvasWithImg(elImg) {
     gElCanvas.height = (elImg.naturalHeight / elImg.naturalWidth) * gElCanvas.width
@@ -188,7 +200,7 @@ function onDeleteLine() {
 
 function onChangeFillColor() {
     const changeFillPicker = document.getElementById('edit-text-color')
-    console.log('changeFillPicker', changeFillPicker);
+    // console.log('changeFillPicker', changeFillPicker);
     changeFillPicker.addEventListener('change', () => {
         const selectedLine = getSelectedLine()
         if (!selectedLine) return
