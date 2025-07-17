@@ -34,9 +34,10 @@
         <div class="editor-container">
 
             <div class="line-crud">
-                <form action="" class="line-content">
+                <!-- text input -->
+                <form action="" class="line-content" onsubmit="return false;">
                     <label for="edit-line-text"></label>
-                    <input type="text" name="edit-line-text" id="edit-line-text" placeholder="add text">
+                    <input type="text" name="edit-line-text" id="edit-line-text" placeholder="add text" value="">
                 </form>
 
                 <!-- CRUD line -->
@@ -66,8 +67,8 @@
                         <input type="color" name="edit-text-color" id="edit-text-color" value="#ffffff">
                     </form>
                     <form action="" class="stroke-color">
-                        <label for="edit-text-color">Edit text color</label>
-                        <input type="color" name="edit-text-color" id="edit-text-color" value="#ffffff">
+                        <label for="edit-stroke-color">Edit stroke color</label>
+                        <input type="color" name="edit-stroke-color" id="edit-stroke-color" value="#000000">
                     </form>
                 </div>
 
@@ -97,6 +98,7 @@
     </section>
 
 
+    <script src="js/line.service.js"></script>
     <script src="js/meme.service.js"></script>
     <script src="js/main.js"></script>
     <script src="js/utils.js"></script>

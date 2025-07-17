@@ -1,66 +1,70 @@
 // CURRENT MEME
 let gMeme
-let gLines
+let gLines = []
 
 
 function createLine(pos) {
-    gMeme.lines.push({
-        pos,
-        txt: 'I sometimes eat Falafel',
-        size: 60,
-        color: '#1455e4',
-        strokeColor: 'black',
-        isDrag: false
-    })
-}
+    if (gLines.length >= 2) {
+        alert('cant add another line. we currently support up to 2 lines')
+    } else {
+        const ctx = getCtx()
+        const txt = 'I sometimes eat Falafel'
+        const size = 35;
+        ctx.font = `${size}px Arial`
 
-
-function createMeme(pos) {
-    gMeme = {
-        selectedImgId: 5,
-        selectedLineIdx: 0,
-        lines: [
+        gLines.push(
             {
+                id: Date.now(),
                 pos,
-                txt: 'I sometimes eat Falafel',
-                size: 60,
+                txt,
+                size,
+                width: ctx.measureText(txt).width,
                 color: '#1455e4',
                 strokeColor: 'black',
-                isDrag: false
+                isDrag: false,
+                isChosen: false,
             }
-        ]
+        )
     }
 }
 
-function getMeme() {
-    return gMeme
+
+function getLines() {
+    return gLines
 }
 
 //* Check if the click is inside the circle 
-function isCircleClicked(clickedPos) {
-    const { pos } = gCircle
+function isLineClicked(clickedPos) {
+    const { pos, width, size } = gLines[0]
 
-    //*  Calc the distance between clickedPos and the circle center
-    const distance = Math.sqrt((pos.x - clickedPos.x) ** 2 + (pos.y - clickedPos.y) ** 2)
+    //* If user clicked in txt coardinates
+    const isLineClicked = (pos.x <= clickedPos.x && pos.x + width >= clickedPos.x) && (pos.y >= clickedPos.y && pos.y <= clickedPos.y + size)
+    if (isLineClicked) {
+        gLines[0].isChosen = true
+    } else {
+        gLines[0].isChosen = false
+    }
 
-    //* If its smaller then the radius of the circle we are inside the circle
-    return distance <= gCircle.size
+    console.log('isChosen', gLines[0].isChosen);
+    console.log('isDrag', gLines[0].isDrag);
+    
 }
 
 
 function setCircleDrag(isDrag) {
-    gCircle.isDrag = isDrag
+    if (!gLines.length) return
+    gLines[0].isDrag = isDrag
 }
 
 //* Move the circle center in the exact amount the mouse moved while clicked
 function moveCircle(dx, dy) {
-    gCircle.pos.x += dx
-    gCircle.pos.y += dy
+    gLines[0].pos.x += dx
+    gLines[0].pos.y += dy
 }
 
 
 function setCirclePos(x, y) {
-    gCircle.pos.x = x
-    gCircle.pos.y = y
+    gLines[0].pos.x = x
+    gLines[0].pos.y = y
 }
 
