@@ -1,170 +1,131 @@
 'use strict'
 
-// CANVAS MODEL
+// === GLOBALS ===
 var gElCanvas
 var gCtx
-var gElImg;
+var gElImg
+var gIsDragging = false
+var gDragStartPos = null
+var gElMeme
 
-
-
+// === APP INIT ===
 function onInit() {
-    // canvas setting
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
     renderGallery(gImgs)
     renderCanvas()
     onTypingText()
-
-    //* Calc the center of the canvas
-    const center = { x: gElCanvas.width / 2, y: gElCanvas.height / 2 }
-
+    onTextSizeUp()
+    onTextSizeDown()
+    onDeleteLine()
+    onChangeFillColor()
+    onChangeStrokeColor()
 }
 
+// === IMAGE ===
 function onSelectImg(elImg) {
     gElImg = elImg
     coverCanvasWithImg(elImg)
+    renderLines()
 }
 
-
-//* changing the canvas height
 function coverCanvasWithImg(elImg) {
     gElCanvas.height = (elImg.naturalHeight / elImg.naturalWidth) * gElCanvas.width
     gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
+// === LINES CRUD ===
 function onAddLine() {
     const lines = getLines()
-    const linesOnCanvas = lines.length
-    const pos = linesOnCanvas < 1 ? { x: 20, y: 80 } : { x: 20, y: 280 }
+    const pos = lines.length === 0
+        ? { x: 20, y: 80 }
+        : { x: 20, y: 80 + 60 * lines.length }
     createLine(pos)
     renderLines()
 }
 
-function downloadCanvas(elLink) {
-    const dataUrl = gElCanvas.toDataURL()
-    // console.log('dataUrl:', dataUrl)
-    elLink.href = dataUrl
-    // Set a name for the downloaded file
-    elLink.download = 'my-img'
-}
-
-// resize canvas (MVP only 'square' memes..)
+// === CANVAS RENDER ===
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
-
-    //* Changing the canvas dimension clears the canvas
     gElCanvas.width = elContainer.clientWidth * 0.7
     coverCanvasWithImg(gElImg)
 }
 
-
 function renderCanvas() {
     gCtx.fillStyle = '#4f4f4f'
     gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
+    if (gElImg) {
+        coverCanvasWithImg(gElImg)
+    }
     renderLines()
 }
 
-
 function renderLines() {
     const lines = getLines()
-    //* Calc the center of the canvas
-    const center = { x: gElCanvas.width / 2, y: gElCanvas.height / 2 }
-
-    //* Get the props we need from the lines & render them
     lines.forEach(line => {
         const { pos, txt, color, size, strokeColor } = line
-        // settings
         gCtx.font = `${size}px Arial`
         gCtx.fillStyle = color
         gCtx.strokeStyle = strokeColor
         gCtx.lineWidth = 1
-        // draw line
         gCtx.fillText(txt, pos.x, pos.y)
         gCtx.strokeText(txt, pos.x, pos.y)
-    });
 
-    console.log('lines', lines);
-
-
+        if (line.isChosen) {
+            // Draw a green rectangle around the text
+            const width = gCtx.measureText(line.txt).width;
+            gCtx.save();
+            gCtx.strokeStyle = "green";
+            gCtx.lineWidth = 2;
+            gCtx.strokeRect(
+                line.pos.x - 2,
+                line.pos.y - line.size,
+                width + 4,
+                line.size + 4
+            )
+            gCtx.restore()
+        }
+    })
+    // console.log('lines', lines)
 }
 
-
-
-
-
-
-// mouse on canvas events - to handle lines dragging, selecting, etc
-
+// === EVENTS (Mouse/Touch) ===
 function onDown(ev) {
-    console.log(ev);
-    const clickedPos = { x: ev.offsetX, y: ev.offsetY }
-    const lines = getLines()
-    const pos = getEvPos(ev)
-
-    //* Exit if click/touch is not on the line
+    const clickedPos = getEvPos(ev)
     isLineClicked(clickedPos)
-    if (!lines[0].isChosen) {
-        renderCanvas()
-        return
+    renderCanvas()
+    const selectedLine = getSelectedLine()
+    if (selectedLine) {
+        document.getElementById('edit-line-text').value = selectedLine.txt
+        gIsDragging = true
+        gDragStartPos = clickedPos
     }
-
-    gCtx.strokeStyle = "green";
-    gCtx.strokeRect(lines[0].pos.x, lines[0].pos.y - lines[0].size, lines[0].width, lines[0].size + 10)
-
-    console.log('lines[0].pos.x | lines[0].pos.y | lines[0].width | lines[0].size');
-    console.log(lines[0].pos.x, lines[0].pos.y, lines[0].width, lines[0].size);
 }
 
 function onMove(ev) {
-    const { isDrag } = getLines()[0]
-    // console.log('isDrag:', isDrag)
-    if (!isDrag) return
-
+    if (!gIsDragging) return
+    const selectedLine = getSelectedLine()
+    if (!selectedLine) return
     const pos = getEvPos(ev)
-
-    //* Calculate distance moved from drag start position
-    const dx = pos.x - gPrevPos.x
-    const dy = pos.y - gPrevPos.y
-    moveCircle(dx, dy)
-    // setCirclePos(pos.x, pos.y)
-
-    //* Update prev position for next move calculation
-    gPrevPos = pos
-
-    //* Redraw the canvas with updated circle position
+    const dx = pos.x - gDragStartPos.x
+    const dy = pos.y - gDragStartPos.y
+    selectedLine.pos.x += dx
+    selectedLine.pos.y += dy
+    gDragStartPos = pos
     renderCanvas()
 }
 
 function onUp() {
-    setCircleDrag(false)
-    document.body.style.cursor = 'grab'
-}
-
-function resizeCanvas() {
-    const elContainer = document.querySelector('.canvas-container')
-    gElCanvas.width = elContainer.offsetWidth
-    gElCanvas.height = elContainer.offsetHeight
+    gIsDragging = false;
+    gDragStartPos = null;
 }
 
 function getEvPos(ev) {
     const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
-
-    let pos = {
-        x: ev.offsetX,
-        y: ev.offsetY,
-    }
-    // console.log('pos:', pos)
-
+    let pos = { x: ev.offsetX, y: ev.offsetY }
     if (TOUCH_EVS.includes(ev.type)) {
-        //* Prevent triggering the default mouse behavior
         ev.preventDefault()
-
-        //* Gets the first touch point (could be multiple in touch event)
         ev = ev.changedTouches[0]
-        /* 
-        * Calculate touch coordinates relative to canvas 
-        * position by subtracting canvas offsets (left and top) from page coordinates
-        */
         pos = {
             x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
             y: ev.pageY - ev.target.offsetTop - ev.target.clientTop,
@@ -173,19 +134,92 @@ function getEvPos(ev) {
     return pos
 }
 
-
-function getCtx() {
-    return gCtx
-}
-
-
+// === EDIT LINE ===
 function onTypingText() {
     const textInput = document.getElementById('edit-line-text')
+    textInput.addEventListener('input', () => {
+        const selectedLine = getSelectedLine()
+        if (!selectedLine) return
+        selectedLine.txt = textInput.value
+        gCtx.font = `${selectedLine.size}px Arial`
+        selectedLine.width = gCtx.measureText(selectedLine.txt).width
+        renderCanvas()
+    })
+}
 
+function onTextSizeUp() {
+    const biggerTextBtn = document.querySelector('.bigger-text-btn')
+    biggerTextBtn.addEventListener('click', () => {
+        // console.log('biggerTextBtn', biggerTextBtn)
+        const selectedLine = getSelectedLine()
+        if (!selectedLine) return
+        selectedLine.size += 4
+        gCtx.font = `${selectedLine.size}px Arial`
+        selectedLine.width = gCtx.measureText(selectedLine.txt).width
+        renderCanvas()
+    })
+}
 
-    textInput.addEventListener('keydown', () => {
-        console.log(textInput.value)
+function onTextSizeDown() {
+    const smallerTextBtn = document.querySelector('.smaller-text-btn')
+    smallerTextBtn.addEventListener('click', () => {
+        const selectedLine = getSelectedLine()
+        if (!selectedLine) return
+        selectedLine.size -= 4
+        gCtx.font = `${selectedLine.size}px Arial`
+        selectedLine.width = gCtx.measureText(selectedLine.txt).width
+        renderCanvas()
+    })
+}
+
+function onDeleteLine() {
+    const deleteLineBtn = document.querySelector('.delete-line-btn')
+    deleteLineBtn.addEventListener('click', () => {
+        const selectedLine = getSelectedLine()
+        console.log('selectedLine', selectedLine)
+        
+        if (!selectedLine) return
+        const selectedLineId = selectedLine.id
+        console.log('selectedLineId', selectedLineId)
+        deleteLine(selectedLineId)
+        renderCanvas()
+    })
+}
+
+function onChangeFillColor() {
+    const changeFillPicker = document.getElementById('edit-text-color')
+    console.log('changeFillPicker', changeFillPicker);
+    changeFillPicker.addEventListener('change', () => {
+        const selectedLine = getSelectedLine()
+        if (!selectedLine) return
+        selectedLine.color = changeFillPicker.value
+        console.log('changeFillPicker.value', changeFillPicker.value);
+        renderCanvas()
+    })
+}
+
+function onChangeStrokeColor() {
+    const changeStrokePicker = document.getElementById('edit-stroke-color')
+    changeStrokePicker.addEventListener('change', () => {
+        const selectedLine = getSelectedLine()
+        if (!selectedLine) return
+        selectedLine.strokeColor = changeStrokePicker.value
+        console.log('changeStrokePicker.value', changeStrokePicker.value);
+        renderCanvas()
     })
 }
 
 
+function downloadCanvas(elLink) {
+    const dataUrl = gElCanvas.toDataURL()
+    elLink.href = dataUrl
+    elLink.download = 'my-img'
+}
+
+
+
+
+// === HELPERS ===
+function getCtx() {
+    return gCtx
+}

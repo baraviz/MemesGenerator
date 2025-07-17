@@ -27,4 +27,10 @@
     height: 500px;
     flex-direction: column;
   }
+
+  .gallery {
+    display: block;
+   position: absolute;
+   top: 900px;
+  }
 }
