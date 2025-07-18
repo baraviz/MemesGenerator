@@ -71,6 +71,7 @@ canvas {
 #edit-line-text {
     background-color: var(--main-bg);
     color: var(--white);
+    font-size: 20px;
 
     border: 0px;
     border-radius: 4px;
@@ -111,6 +112,8 @@ canvas {
         'add-line-btn change-line-btn delete-line-btn'
     ;
 }
+
+
 
 
 /* TEXT MANIPULATION */
