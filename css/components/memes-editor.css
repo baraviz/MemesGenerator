@@ -19,7 +19,7 @@ button:hover {
 
 /* CANVAS CONTAINER */
 .memes-editor-section {
-    display: flex;
+    display: none;
     margin: 16px 0;
     gap: 16px;
 }

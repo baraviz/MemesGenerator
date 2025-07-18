@@ -31,6 +31,7 @@ function onInit() {
     onAlignRight()
     onAlignCenter()
     preventDoubleTapZoom()
+    onSearchMeme()
 }
 
 // === PAGE NAVIGATINS (PARAMS) ===
@@ -92,15 +93,24 @@ function coverCanvasWithImg(elImg) {
     gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
+function onSearchMeme() {
+    const searchInput = document.getElementById('search-memes')
+    searchInput.addEventListener('input', () => {
+        filterImages(searchInput.value)
+    })
+    
+}
+
 
 // === LINES CRUD ===
 function onAddLine() {
+    const textInput = document.getElementById('edit-line-text')
     const lines = getLines()
     const pos = lines.length === 0
         ? { x: 20, y: 80 }
         : { x: 20, y: (80 + 60 * lines.length) % 400 }
-    createLine(pos, 'I sometimes eat Falafel')
-    renderLines()
+    createLine(pos, textInput.value)
+    renderCanvas()
 }
 
 function onDeleteLine() {

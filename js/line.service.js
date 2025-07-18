@@ -14,10 +14,6 @@ function createLine(pos, txt) {
     // }
     const ctx = getCtx()
     const size = 35
-    if (!ctx || !gElImg) {
-        alert('Please select an image before adding text or stickers!')
-        return
-    }
     ctx.font = `${size}px Arial`
 
     gLines.push({
@@ -31,6 +27,13 @@ function createLine(pos, txt) {
         isDrag: false,
         isChosen: false,
     })
+    gSelectedLineIdx = gLines.length - 1
+    gLines.forEach((line) => {
+        line.isChosen = false
+    })
+    gLines[gSelectedLineIdx].isChosen = true
+    console.log('gSelectedLineIdx', gSelectedLineIdx);
+
 }
 
 function isLineClicked(clickedPos) {
@@ -59,6 +62,15 @@ function deleteLine(selectedLineId) {
         return line.id !== selectedLineId
     })
     gLines = filteredGLines
+    
+    if (gLines.length >= 1) {
+        gSelectedLineIdx = gLines.length - 1
+        gLines.forEach((line) => {
+            line.isChosen = false
+        })
+        gLines[gSelectedLineIdx].isChosen = true
+        console.log('gSelectedLineIdx', gSelectedLineIdx);
+    } 
 }
 
 function changeLine() {

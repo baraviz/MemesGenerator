@@ -14,10 +14,10 @@
 <body onload="onInit()">
     <header>
         <div class="topnav" id="myTopnav">
-            <a href="#Gallery" class="gallery-btn">Gallery</a>
+            <a href="#Gallery" class="gallery-btn active">Gallery</a>
             <a href="#MyMemes">My Memes</a>
             <a href="#About">About</a>
-            <a href="#Editor" class="editor-btn active">Editor</a>
+            <a href="#Editor" class="editor-btn">Editor</a>
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <i class="fa fa-bars"></i>
             </a>
@@ -38,7 +38,8 @@
                 <!-- text input -->
                 <form action="" class="line-content" onsubmit="return false;">
                     <label for="edit-line-text"></label>
-                    <input type="text" name="edit-line-text" id="edit-line-text" placeholder="add text" value="">
+                    <input type="text" name="edit-line-text" id="edit-line-text" placeholder="add text"
+                        value="I sometimes eat Falafel">
                 </form>
 
                 <!-- CRUD line -->
@@ -93,12 +94,14 @@
                     class="fa-solid fa-download fa-xs" style="color: #ffffff;"></i> Download</a>
             <a class="share-btn" href="#" onclick="downloadCanvas(this)"><i class="fa-solid fa-share-nodes fa-xs"
                     style="color: #ffffff;"></i> Share</a>
-            <button class="save-meme"><i class="fa-solid fa-floppy-disk fa-xs" style="color: #ffffff;"></i> Save</button>
+            <button class="save-meme"><i class="fa-solid fa-floppy-disk fa-xs" style="color: #ffffff;"></i>
+                Save</button>
         </div>
     </div>
 
     <div class="gallery">
-        <h2>Select an image</h2>
+        <h2>Select an image <input type="text" name="search-memes" id="search-memes" placeholder="search memes"
+                value=""></h2>
         <section class="gallery-container">
         </section>
     </div>
