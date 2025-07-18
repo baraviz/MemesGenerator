@@ -6,6 +6,7 @@
 @import url(components/bg.css);
 @import url(components/memes-editor.css);
 @import url(components/img-container.css);
+@import url(components/color-pickers.css);
 
 /* MEDIA QUERIES */
 @import url(mq.css);

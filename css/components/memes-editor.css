@@ -20,8 +20,8 @@ button:hover {
 /* CANVAS CONTAINER */
 .memes-editor-section {
     display: flex;
-    margin: 8px 0;
-    gap: 8px;
+    margin: 16px 0;
+    gap: 16px;
 }
 
 .canvas-container {
@@ -32,13 +32,13 @@ button:hover {
     align-items: center;
     background-color: var(--nav-bg);
     border-radius: 16px;
-    padding: 8px;
+    padding: 16px;
 }
 
 canvas {
     display: flex;
     background-color: var(--main-bg);
-    border-radius: 8px;
+    border-radius: 16px;
 }
 
 /* EDITOR CONTAINER */
@@ -72,12 +72,9 @@ canvas {
     border: 0px;
     border-radius: 4px;
 
-    width: 95%;
+    width: 97%;
     height: 80%;
     padding: 4px 8px;
-
-
-
 }
 
 /* EDITOR GRID AREAS */
@@ -99,10 +96,9 @@ canvas {
     grid-area: line-crud;
 
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 2fr 2fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 8px;
-
+    gap: 20px;
     grid-template-areas:
         'line-crud line-crud line-crud'
         'add-line-btn change-line-btn delete-line-btn'
@@ -135,7 +131,7 @@ canvas {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 8px;
+    gap: 20px;
 
     grid-template-areas:
         'bigger-text-btn smaller-text-btn text-align-left text-align-center text-align-right'
@@ -168,9 +164,9 @@ canvas {
 
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 3fr 1fr 1fr 1fr;
     gap: 20px;
-    padding: 8px;
+    padding: 16px;
 
     grid-template-areas:
         'line-crud line-crud'
@@ -183,9 +179,10 @@ canvas {
 
 .change-color {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    gap: 16px;
     align-items: center;
-    padding: 0 16px;
+    /* padding: 0 16px; */
 }
 
 /* stickers-container */
@@ -198,6 +195,10 @@ canvas {
     width: 100%;
 }
 
+.stickers-container button:hover {
+    width: 100%;
+    background-color: #5b5b5b;
+}
 
 hr {
     width:50%;
@@ -221,6 +222,7 @@ hr {
     background-color: var(--nav-bg);
     font-size: 30px;
 }
+
 
 
 /* .add-line-btn {

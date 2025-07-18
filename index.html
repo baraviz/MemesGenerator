@@ -14,10 +14,10 @@
 <body onload="onInit()">
     <header>
         <div class="topnav" id="myTopnav">
-            <a href="gallery.html">Gallery</a>
+            <a href="#Gallery" class="gallery-btn">Gallery</a>
             <a href="#Memes">Memes</a>
             <a href="#About">About</a>
-            <a href="#Editor" class="active">Editor</a>
+            <a href="#Editor" class="editor-btn active">Editor</a>
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <i class="fa fa-bars"></i>
             </a>
@@ -49,18 +49,18 @@
 
             <div class="text-manipulation">
                 <!-- font size -->
-                <button class="bigger-text-btn"><i class="fa-solid fa-font" style="color: #ffffff;"></i>+</button>
-                <button class="smaller-text-btn"><i class="fa-solid fa-font" style="color: #ffffff;"></i>-</button>
+                <button class="bigger-text-btn font-size"><i class="fa-solid fa-font" style="color: #ffffff;"></i>+</button>
+                <button class="smaller-text-btn font-size"><i class="fa-solid fa-font" style="color: #ffffff;"></i> -</button>
 
                 <!-- alignment -->
-                <button class="text-align-left"><i class="fa-solid fa-align-left" style="color: #ffffff;"></i></button>
-                <button class="text-align-right"><i class="fa-solid fa-align-right"
+                <button class="text-align-left align"><i class="fa-solid fa-align-left" style="color: #ffffff;"></i></button>
+                <button class="text-align-right align"><i class="fa-solid fa-align-right"
                         style="color: #ffffff;"></i></button>
-                <button class="text-align-center"><i class="fa-solid fa-align-center"
+                <button class="text-align-center align"><i class="fa-solid fa-align-center"
                         style="color: #ffffff;"></i></button>
 
+                <!-- change color -->
                 <div class="change-color">
-                    <!-- change color -->
                     <form action="" class="text-color">
                         <label for="edit-text-color">text color</label>
                         <input type="color" name="edit-text-color" id="edit-text-color" value="#ffffff">
@@ -73,7 +73,7 @@
 
             </div>
 
-            <!-- add stickkers -->
+            <!-- add stickers -->
             <div class="stickers-container">
                 <button><i class="fa-solid fa-angle-left" style="color: #bdbdbd;"></i></button>
                 <button>😜</button>
@@ -100,7 +100,7 @@
 
 
     <script src="js/line.service.js"></script>
-    <script src="js/meme.service.js"></script>
+    <script src="js/img.service.js"></script>
     <script src="js/main.js"></script>
     <script src="js/utils.js"></script>
 </body>

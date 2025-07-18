@@ -8,14 +8,15 @@ var gIsDragging = false
 var gDragStartPos = null
 var gElMeme
 
+// === QUERY PARAMS ===
+const params = new URLSearchParams(window.location.search)
+const page = params.get('page')
+
 // === APP INIT ===
 function onInit() {
-
-    console.log('gElImg', gElImg);
-    
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
-    renderImgsInEditor(gImgs)
+    renderGallery(gImgs)
     renderCanvas()
     onTypingText()
     onTextSizeUp()
@@ -23,38 +24,107 @@ function onInit() {
     onDeleteLine()
     onChangeFillColor()
     onChangeStrokeColor()
+    onShowGallery()
+    onEditMeme()
+    onChangeLine()
+    onAlignLeft()
+    onAlignRight()
+    onAlignCenter()
 }
 
+// === PAGE NAVIGATINS (PARAMS) ===
+function onShowGallery() {
+    const elEditorSection = document.querySelector('.memes-editor-section')
+    const elGalleryLink = document.querySelector('.gallery-btn')
+    const elLinksInHeader = document.querySelectorAll('#myTopnav a')
+
+    elGalleryLink.addEventListener('click', () => {
+        elEditorSection.style.display = 'none'
+        window.history.pushState({}, '', '?page=gallery')
+
+        elLinksInHeader.forEach((elLink) => {
+            elLink.classList.remove('active')
+        });
+
+        elGalleryLink.classList.add('active')
+        document.querySelector('.gallery h2').innerText = 'Select an image'
+
+    })
+    renderCanvas()
+}
+
+function onEditMeme() {
+    const elLinksInHeader = document.querySelectorAll('#myTopnav a')
+    const elEditorSection = document.querySelector('.memes-editor-section')
+    const elEditorLink = document.querySelector('.editor-btn')
+    const elImgs = document.querySelectorAll('.gallery-container img')
+    const allReffersToEdit = [...elImgs, elEditorLink]
+
+    allReffersToEdit.forEach((img) => {
+        img.addEventListener('click', () => {
+            elLinksInHeader.forEach((elLink) => {
+                elLink.classList.remove('active')
+            })
+            elEditorLink.classList.add('active')
+            elEditorSection.style.display = 'flex'
+            window.history.pushState({}, '', `?page=editor`)
+
+            document.querySelector('.gallery h2').innerText = 'Replace image'
+        })
+    })
+    renderCanvas()
+}
+
+
 // === IMAGE ===
-function onChangeImg(elImg) {
+function onSelectImg(elImg) {
     gElImg = elImg
     coverCanvasWithImg(elImg)
     renderLines()
 }
-
-function onSelectImg(elImg) {
-    gElImg = elImg
-    console.log('gElImg', gElImg);
-    localStorage.setItem('gElImg', JSON.stringify(gElImg))
-    // gElImg = elImg
-    setTimeout((() => window.location.href = 'index.html'), 2000)
-}
-
 
 function coverCanvasWithImg(elImg) {
     gElCanvas.height = (elImg.naturalHeight / elImg.naturalWidth) * gElCanvas.width
     gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
+
 // === LINES CRUD ===
 function onAddLine() {
     const lines = getLines()
     const pos = lines.length === 0
         ? { x: 20, y: 80 }
-        : { x: 20, y: 80 + 60 * lines.length }
-    createLine(pos)
+        : { x: 20, y: (80 + 60 * lines.length) % 400 }
+    createLine(pos, 'I sometimes eat Falafel')
     renderLines()
 }
+
+function onDeleteLine() {
+    const deleteLineBtn = document.querySelector('.delete-line-btn')
+    deleteLineBtn.addEventListener('click', () => {
+        const selectedLine = getSelectedLine()
+        console.log('selectedLine', selectedLine)
+
+        if (!selectedLine) return
+        const selectedLineId = selectedLine.id
+        console.log('selectedLineId', selectedLineId)
+        deleteLine(selectedLineId)
+        renderCanvas()
+    })
+}
+
+function onTypingText() {
+    const textInput = document.getElementById('edit-line-text')
+    textInput.addEventListener('input', () => {
+        const selectedLine = getSelectedLine()
+        if (!selectedLine) return
+        selectedLine.txt = textInput.value
+        gCtx.font = `${selectedLine.size}px Arial`
+        selectedLine.width = gCtx.measureText(selectedLine.txt).width
+        renderCanvas()
+    })
+}
+
 
 // === CANVAS RENDER ===
 function resizeCanvas() {
@@ -84,21 +154,26 @@ function renderLines() {
         gCtx.strokeText(txt, pos.x, pos.y)
 
         if (line.isChosen) {
-            // Draw a green rectangle around the text
-            const width = gCtx.measureText(line.txt).width;
-            gCtx.save();
-            gCtx.strokeStyle = "green";
-            gCtx.lineWidth = 2;
-            gCtx.strokeRect(
-                line.pos.x - 2,
-                line.pos.y - line.size,
-                width + 4,
-                line.size + 4
-            )
-            gCtx.restore()
+            lineFocus(line)
         }
     })
     // console.log('lines', lines)
+}
+
+function lineFocus(line) {
+    // Draw a green rectangle around the text
+    const width = gCtx.measureText(line.txt).width;
+    gCtx.save();
+    gCtx.strokeStyle = "green";
+    gCtx.lineWidth = 2;
+    gCtx.strokeRect(
+        line.pos.x - 2,
+        line.pos.y - line.size,
+        width + 4,
+        line.size + 4
+    )
+    gCtx.restore()
+
 }
 
 // === EVENTS (Mouse/Touch) ===
@@ -110,7 +185,7 @@ function onDown(ev) {
     if (selectedLine) {
         document.getElementById('edit-line-text').value = selectedLine.txt
         gIsDragging = true
-        gDragStartPos = clickedPos
+        gDragStartPos = clickedPos        
     }
 }
 
@@ -146,18 +221,7 @@ function getEvPos(ev) {
     return pos
 }
 
-// === EDIT LINE ===
-function onTypingText() {
-    const textInput = document.getElementById('edit-line-text')
-    textInput.addEventListener('input', () => {
-        const selectedLine = getSelectedLine()
-        if (!selectedLine) return
-        selectedLine.txt = textInput.value
-        gCtx.font = `${selectedLine.size}px Arial`
-        selectedLine.width = gCtx.measureText(selectedLine.txt).width
-        renderCanvas()
-    })
-}
+// === LINE STYLING===
 
 function onTextSizeUp() {
     const biggerTextBtn = document.querySelector('.bigger-text-btn')
@@ -183,21 +247,6 @@ function onTextSizeDown() {
         renderCanvas()
     })
 }
-
-function onDeleteLine() {
-    const deleteLineBtn = document.querySelector('.delete-line-btn')
-    deleteLineBtn.addEventListener('click', () => {
-        const selectedLine = getSelectedLine()
-        console.log('selectedLine', selectedLine)
-        
-        if (!selectedLine) return
-        const selectedLineId = selectedLine.id
-        console.log('selectedLineId', selectedLineId)
-        deleteLine(selectedLineId)
-        renderCanvas()
-    })
-}
-
 function onChangeFillColor() {
     const changeFillPicker = document.getElementById('edit-text-color')
     // console.log('changeFillPicker', changeFillPicker);
@@ -221,7 +270,60 @@ function onChangeStrokeColor() {
     })
 }
 
+function onChangeLine() {
+    const changeLineBtn = document.querySelector('.change-line-btn')
+    changeLineBtn.addEventListener('click', () => {
+        const selectedLine = getSelectedLine()
+        if (!selectedLine) return
+        const lineSwitched = changeLine()
+        renderCanvas()
+        document.getElementById('edit-line-text').value = lineSwitched.txt
+        
+    })
+}
 
+function onAlignLeft() {
+    const textAlignLeft = document.querySelector('.text-align-left')
+    textAlignLeft.addEventListener('click', () => {
+        const selectedLine = getSelectedLine()
+        if (!selectedLine) return
+        alignToLeft()
+        renderCanvas()
+    })
+}
+
+function onAlignRight() {
+    const textAlignRight = document.querySelector('.text-align-right')
+    textAlignRight.addEventListener('click', () => {
+        const selectedLine = getSelectedLine()
+        if (!selectedLine) return
+        alignToRight()
+        renderCanvas()
+    })
+}
+
+function onAlignCenter() {
+    const textAlignCenter = document.querySelector('.text-align-center')
+    textAlignCenter.addEventListener('click', () => {
+        const selectedLine = getSelectedLine()
+        if (!selectedLine) return
+        alignToCenter()
+        renderCanvas()
+    })
+}
+
+function onAddEmoji() {
+    const textAlignCenter = document.querySelector('.text-align-center')
+    textAlignCenter.addEventListener('click', () => {
+        const selectedLine = getSelectedLine()
+        if (!selectedLine) return
+        alignToCenter()
+        renderCanvas()
+    })
+}
+
+
+// === DOWNLOAD & SHARE
 function downloadCanvas(elLink) {
     const dataUrl = gElCanvas.toDataURL()
     elLink.href = dataUrl
@@ -229,9 +331,8 @@ function downloadCanvas(elLink) {
 }
 
 
-
-
 // === HELPERS ===
 function getCtx() {
     return gCtx
 }
+
