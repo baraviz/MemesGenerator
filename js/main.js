@@ -30,6 +30,7 @@ function onInit() {
     onAlignLeft()
     onAlignRight()
     onAlignCenter()
+    preventDoubleTapZoom()
 }
 
 // === PAGE NAVIGATINS (PARAMS) ===
@@ -79,8 +80,11 @@ function onEditMeme() {
 // === IMAGE ===
 function onSelectImg(elImg) {
     gElImg = elImg
+    console.log('gElImg', gElImg);
+
     coverCanvasWithImg(elImg)
     renderLines()
+    scrollToTop()
 }
 
 function coverCanvasWithImg(elImg) {
@@ -185,7 +189,7 @@ function onDown(ev) {
     if (selectedLine) {
         document.getElementById('edit-line-text').value = selectedLine.txt
         gIsDragging = true
-        gDragStartPos = clickedPos        
+        gDragStartPos = clickedPos
     }
 }
 
@@ -278,7 +282,7 @@ function onChangeLine() {
         const lineSwitched = changeLine()
         renderCanvas()
         document.getElementById('edit-line-text').value = lineSwitched.txt
-        
+
     })
 }
 
@@ -336,3 +340,20 @@ function getCtx() {
     return gCtx
 }
 
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+function preventDoubleTapZoom() {
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', (ev) => {
+        const now = new Date().getTime();
+        if (now - lastTouchEnd <= 300) {
+            ev.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+}

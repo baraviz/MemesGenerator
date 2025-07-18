@@ -30,13 +30,22 @@
 }
 
 @media screen and (max-width: 800px) {
-  .body {
-    position: relative;
+  body {
+    margin: 8px;
   }
 
   .memes-editor-section {
     height: 500px;
     flex-direction: column;
+    gap: 8px;
+  }
+
+  .memes-editor-section button {
+    font-size: 24px;
+  }
+
+  .line-crud button {
+    padding: 16px;
   }
 
   .gallery {
@@ -46,10 +55,57 @@
   }
 
   .gallery-container img {
-    width: 200px;
+    width: 175px;
     cursor: pointer;
     /* filter: grayscale(1); */
     border: 4px solid var(--main-bg);
     border-radius: 16px;
-}
+  }
+
+  .editor-container,
+  .text-manipulation,
+  .line-crud {
+    gap: 8px;
+  }
+
+  .editor-container {
+    height: 300px;
+  }
+
+  #edit-text-color,
+  #edit-stroke-color {
+    height: 25px;
+    width: 40%;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+  }
+
+  .stroke-color label,
+  .text-color label {
+    font-size: 16px;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+
+  }
+
+  form:has(#edit-text-color),
+  form:has(#edit-stroke-color) {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  #myTopnav a {
+    padding: 16px 32px;
+
+  }
+
+  .editor-container a {
+    font-size: 24px;
+  }
+
 }

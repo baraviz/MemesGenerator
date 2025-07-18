@@ -44,22 +44,25 @@ canvas {
 /* EDITOR CONTAINER */
 .download-btn,
 .share-btn {
-    background-color: var(--button);
-    border-radius: 4px;
+    background-color: var(--main-bg);
+    border-radius: 8px;
     color: var(--text);
     padding: 4px 8px;
+    width: 90%;
+    height: 82%;
+    align-items: center;
+    font-size: 24px;
+
 
     text-decoration: none;
     justify-self: center;
     align-self: center;
-
-    transition: 0.4s;
 }
 
 .download-btn:hover,
 .share-btn:hover {
-    background-color: var(--button-hover);
-    border-radius: 4px;
+    background-color: #5b5b5b;
+    border-radius: 8px;
     color: var(--text);
     padding: 4px 8px;
     text-decoration: none;
@@ -83,15 +86,19 @@ canvas {
 .line-content {
     grid-area: line-crud;
 }
+
 .add-line-btn {
     grid-area: add-line-btn;
 }
+
 .change-line-btn {
     grid-area: change-line-btn;
 }
+
 .delete-line-btn {
     grid-area: delete-line-btn;
 }
+
 .line-crud {
     grid-area: line-crud;
 
@@ -110,21 +117,27 @@ canvas {
 .bigger-text-btn {
     grid-area: bigger-text-btn;
 }
+
 .smaller-text-btn {
     grid-area: smaller-text-btn;
 }
+
 .text-align-left {
     grid-area: text-align-left;
 }
+
 .text-align-right {
     grid-area: text-align-right;
 }
+
 .text-align-center {
     grid-area: text-align-center;
 }
+
 .change-color {
     grid-area: change-color;
 }
+
 .text-manipulation {
     grid-area: text-manipulation;
 
@@ -155,6 +168,11 @@ canvas {
     grid-area: share-btn;
 }
 
+.save-meme {
+    grid-area: save-meme;
+    background-color: var(--main-bg);
+}
+
 
 .editor-container {
     flex: 1;
@@ -163,16 +181,16 @@ canvas {
     border-radius: 16px;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 3fr 1fr 1fr 1fr;
     gap: 20px;
     padding: 16px;
 
     grid-template-areas:
-        'line-crud line-crud'
-        'text-manipulation text-manipulation'
-        'stickers-container stickers-container'
-        'download-btn share-btn'
+        'line-crud line-crud line-crud'
+        'text-manipulation text-manipulation text-manipulation'
+        'stickers-container stickers-container stickers-container'
+        'download-btn share-btn save-meme'
     ;
 }
 
@@ -201,14 +219,15 @@ canvas {
 }
 
 hr {
-    width:50%;
-    text-align:left;
+    width: 50%;
+    text-align: left;
     margin-left: 0;
 }
 
 .delete-line-btn {
     background-color: #ed024d;
 }
+
 .delete-line-btn:hover {
     background-color: #ff276b;
 }

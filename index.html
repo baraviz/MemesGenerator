@@ -15,7 +15,7 @@
     <header>
         <div class="topnav" id="myTopnav">
             <a href="#Gallery" class="gallery-btn">Gallery</a>
-            <a href="#Memes">Memes</a>
+            <a href="#MyMemes">My Memes</a>
             <a href="#About">About</a>
             <a href="#Editor" class="editor-btn active">Editor</a>
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
@@ -42,18 +42,23 @@
                 </form>
 
                 <!-- CRUD line -->
-                <button class="add-line-btn" onclick="onAddLine()"><i class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
-                <button class="change-line-btn"><i class="fa-solid fa-arrows-up-down" style="color: #ffffff;"></i></button>
+                <button class="add-line-btn" onclick="onAddLine()"><i class="fa-solid fa-plus"
+                        style="color: #ffffff;"></i></button>
+                <button class="change-line-btn"><i class="fa-solid fa-arrows-up-down"
+                        style="color: #ffffff;"></i></button>
                 <button class="delete-line-btn"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
             </div>
 
             <div class="text-manipulation">
                 <!-- font size -->
-                <button class="bigger-text-btn font-size"><i class="fa-solid fa-font" style="color: #ffffff;"></i>+</button>
-                <button class="smaller-text-btn font-size"><i class="fa-solid fa-font" style="color: #ffffff;"></i> -</button>
+                <button class="bigger-text-btn font-size"><i class="fa-solid fa-font"
+                        style="color: #ffffff;"></i>+</button>
+                <button class="smaller-text-btn font-size"><i class="fa-solid fa-font" style="color: #ffffff;"></i>
+                    -</button>
 
                 <!-- alignment -->
-                <button class="text-align-left align"><i class="fa-solid fa-align-left" style="color: #ffffff;"></i></button>
+                <button class="text-align-left align"><i class="fa-solid fa-align-left"
+                        style="color: #ffffff;"></i></button>
                 <button class="text-align-right align"><i class="fa-solid fa-align-right"
                         style="color: #ffffff;"></i></button>
                 <button class="text-align-center align"><i class="fa-solid fa-align-center"
@@ -83,12 +88,12 @@
                 <button><i class="fa-solid fa-angle-right" style="color: #bdbdbd;"></i></button>
             </div>
 
-            <!-- Save & Share -->
-            <a class="download-btn" href="#" onclick="downloadCanvas(this)" download>Download <i
-                    class="fa-solid fa-download fa-xs" style="color: #ffffff;"></i></a>
-            <a class="share-btn" href="#" onclick="downloadCanvas(this)">Share <i class="fa-solid fa-share-nodes fa-xs"
-                    style="color: #ffffff;"></i></a>
-
+            <!-- Save, Download & Share -->
+            <a class="download-btn" href="#" onclick="downloadCanvas(this)" download><i
+                    class="fa-solid fa-download fa-xs" style="color: #ffffff;"></i> Download</a>
+            <a class="share-btn" href="#" onclick="downloadCanvas(this)"><i class="fa-solid fa-share-nodes fa-xs"
+                    style="color: #ffffff;"></i> Share</a>
+            <button class="save-meme"><i class="fa-solid fa-floppy-disk fa-xs" style="color: #ffffff;"></i> Save</button>
         </div>
     </div>
 
