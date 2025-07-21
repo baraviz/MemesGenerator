@@ -15,9 +15,9 @@
     <header>
         <div class="topnav" id="myTopnav">
             <a href="#Gallery" class="gallery-btn active">Gallery</a>
-            <a href="#MyMemes">My Memes</a>
-            <a href="#About">About</a>
+            <a href="#MyMemes" class="my-memes-btn">My Memes</a>
             <a href="#Editor" class="editor-btn">Editor</a>
+            <a href="about.html" class="about-me-btn">About</a>
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <i class="fa fa-bars"></i>
             </a>
@@ -80,14 +80,7 @@
             </div>
 
             <!-- add stickers -->
-            <div class="stickers-container">
-                <button><i class="fa-solid fa-angle-left" style="color: #bdbdbd;"></i></button>
-                <button>😜</button>
-                <button>🤑</button>
-                <button>💩</button>
-                <button>🤬</button>
-                <button><i class="fa-solid fa-angle-right" style="color: #bdbdbd;"></i></button>
-            </div>
+            <div class="stickers-container"></div>
 
             <!-- Save, Download & Share -->
             <a class="download-btn" href="#" onclick="downloadCanvas(this)" download><i
@@ -102,11 +95,29 @@
     <div class="gallery">
         <h2>Select an image <input type="text" name="search-memes" id="search-memes" placeholder="search memes"
                 value=""></h2>
+                <section class="keywords-sction">
+                    <p onclick="onKeyword(this)">funny</p>
+                    <p>classy</p>
+                    <p>classy</p>
+                    <p>classy</p>
+                    <p>classy</p>
+                    <p>classy</p>
+                </section>
         <section class="gallery-container">
         </section>
     </div>
 
+    <div class="saved-memes">
+        <h2>Saved Memes</h2>
+        <div class="meme-card">
+            <button>x</button>
+            <canvas width="150" height="150" class="saved-meme-canvas"></canvas>
+            <p class="editor-name">Bar</p>
+            <p class="last-edited">18/07/2025</p>
+        </div>
+    </div>
 
+    <script src="js/local.storage.js"></script>
     <script src="js/line.service.js"></script>
     <script src="js/img.service.js"></script>
     <script src="js/main.js"></script>

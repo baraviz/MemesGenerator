@@ -17,6 +17,7 @@ function onInit() {
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
     renderGallery(gImgs)
+    renderEmojies(['😜', '🤑', '💩', '🤬'])
     renderCanvas()
     onTypingText()
     onTextSizeUp()
@@ -32,6 +33,9 @@ function onInit() {
     onAlignCenter()
     preventDoubleTapZoom()
     onSearchMeme()
+    onSaveMeme()
+    showSavedMemesSection()
+    onAddEmoji()
 }
 
 // === PAGE NAVIGATINS (PARAMS) ===
@@ -39,9 +43,11 @@ function onShowGallery() {
     const elEditorSection = document.querySelector('.memes-editor-section')
     const elGalleryLink = document.querySelector('.gallery-btn')
     const elLinksInHeader = document.querySelectorAll('#myTopnav a')
+    const elGallery = document.querySelector('.gallery')
 
     elGalleryLink.addEventListener('click', () => {
         elEditorSection.style.display = 'none'
+        elGallery.style.display = 'block'
         window.history.pushState({}, '', '?page=gallery')
 
         elLinksInHeader.forEach((elLink) => {
@@ -77,6 +83,23 @@ function onEditMeme() {
     renderCanvas()
 }
 
+function showSavedMemesSection() {
+    const elLinksInHeader = document.querySelectorAll('#myTopnav a')
+    const elSavedMemesBtn = document.querySelector('.my-memes-btn')
+
+    elSavedMemesBtn.addEventListener('click', () => {
+        document.querySelector('.saved-memes').style.display = 'block'
+        document.querySelector('.gallery').style.display = 'none'
+        document.querySelector('.memes-editor-section').style.display = 'none'
+        elLinksInHeader.forEach((elLink) => {
+            elLink.classList.remove('active')
+            elSavedMemesBtn.classList.add('active')
+        })
+        window.history.pushState({}, '', `?page=SavedMemes`)
+        renderSavedMemes()
+    })
+}
+
 
 // === IMAGE ===
 function onSelectImg(elImg) {
@@ -98,9 +121,35 @@ function onSearchMeme() {
     searchInput.addEventListener('input', () => {
         filterImages(searchInput.value)
     })
-    
 }
 
+function onKeyword(elKeyword) {
+    var textInput = document.getElementById('search-memes')
+    textInput.value = elKeyword.innerHTML
+    console.log('elKeyword', elKeyword);
+    console.log('elKeyword.innerText', elKeyword.innerText);
+}
+
+
+function onUploadImage(ev) {
+    const file = ev.target.files[0]
+    if (!file) return
+
+    const imgLink = URL.createObjectURL(file)
+    console.log('imgLink', imgLink)
+
+    const img = new window.Image()
+    img.onload = () => {
+        gElImg = img
+        renderCanvas()
+    }
+    img.src = imgLink
+
+    document.querySelector('.memes-editor-section').style.display = 'flex'
+    document.querySelector('.saved-memes').style.display = 'none'
+    document.querySelector('.gallery').style.display = 'none'
+    scrollToTop()
+}
 
 // === LINES CRUD ===
 function onAddLine() {
@@ -129,7 +178,7 @@ function onDeleteLine() {
 
 function onTypingText() {
     const textInput = document.getElementById('edit-line-text')
-    textInput.addEventListener('input', () => {
+    textInput.addEventListener('change', () => {
         const selectedLine = getSelectedLine()
         if (!selectedLine) return
         selectedLine.txt = textInput.value
@@ -326,23 +375,111 @@ function onAlignCenter() {
     })
 }
 
-function onAddEmoji() {
-    const textAlignCenter = document.querySelector('.text-align-center')
-    textAlignCenter.addEventListener('click', () => {
-        const selectedLine = getSelectedLine()
-        if (!selectedLine) return
-        alignToCenter()
-        renderCanvas()
-    })
+function onAddEmoji(elEmoji) {
+    const emoji = elEmoji.innerText
+    // console.log('emoji', emoji);
+    createLine({ x: 20, y: 100 }, emoji)
+    renderCanvas()
 }
 
 
-// === DOWNLOAD & SHARE
+// === DOWNLOAD
 function downloadCanvas(elLink) {
+    removeLinesFocus()
+    renderCanvas()
     const dataUrl = gElCanvas.toDataURL()
     elLink.href = dataUrl
     elLink.download = 'my-img'
 }
+
+
+// === SAVE ===
+function onSaveMeme() {
+    document.querySelector('.save-meme').addEventListener('click', () => {
+        removeLinesFocus()
+        renderCanvas()
+        const memeToSave = {
+            url: gElImg.src || gElImg.getAttribute('src'),
+            lines: loadFromStorage(gLines),
+            createdAt: new Date().toLocaleString(),
+            imageData: gElCanvas.toDataURL()
+        }
+        let memes = loadFromStorage('memes') || []
+        memes.push(memeToSave)
+        saveToStorage('memes', memes)
+        alert('Meme saved!')
+    })
+}
+
+
+function renderSavedMemes() {
+    const memes = loadFromStorage('memes')
+    const memesSection = document.querySelector('.saved-memes')
+    memesSection.innerHTML = '<h2>Saved Memes</h2>'
+    memes.forEach((meme, idx) => {
+        memesSection.innerHTML += `
+            <div class="meme-card">
+               <button onclick="onDeleteSavedMeme(${idx})">x</button>
+               <img src="${meme.imageData}" width="150" height="150" onclick="onEditSavedMeme(${idx})" style="cursor:pointer"/>
+               <p class="editor-name">Bar</p>
+               <p class="last-edited">${meme.createdAt}</p>
+            </div>
+            `
+    })
+}
+
+function onEditSavedMeme(idx) {
+    const memes = loadFromStorage('memes')
+    const meme = memes[idx]
+    gLines = JSON.parse(JSON.stringify(meme.lines))
+    gSelectedLineIdx = gLines.length ? 0 : -1
+
+    const img = new window.Image()
+    img.onload = () => {
+        gElImg = img
+        renderCanvas()
+    }
+    img.src = meme.url
+
+    document.querySelector('.memes-editor-section').style.display = 'flex'
+    document.querySelector('.saved-memes').style.display = 'none'
+    document.querySelector('.gallery').style.display = 'none'
+    scrollToTop()
+}
+
+
+function onDeleteSavedMeme(idx) {
+    let memes = loadFromStorage('memes')
+    memes.splice(idx, 1)
+    saveToStorage('memes', memes)
+    renderSavedMemes()
+}
+
+function onEmojiNextPage() {
+    const emojies = filterEmojiesOnPage(true)
+    // console.log('emojies', emojies);
+    renderEmojies(emojies)
+}
+
+function onEmojiPrevPage() {
+    const emojies = filterEmojiesOnPage(false)
+    // console.log('emojies', emojies);
+    renderEmojies(emojies)
+}
+
+
+function renderEmojies(emojies) {
+    var elStickersContainer = document.querySelector('.stickers-container')
+    // const emojies = filterEmojiesOnPage('')
+    var render = `<button onclick="onEmojiPrevPage()"><i class="fa-solid fa-angle-left" style="color: #bdbdbd;"></i></button>\n`
+    emojies.forEach((emoji) => {
+        render += `<button class="emoji" onclick="onAddEmoji(this)">${emoji}</button>\n`
+    })
+    render += `<button onclick="onEmojiNextPage()"><i class="fa-solid fa-angle-right" style="color: #bdbdbd;"></i></button>`
+    console.log('render', render);
+    elStickersContainer.innerHTML = render
+}
+
 
 
 // === HELPERS ===

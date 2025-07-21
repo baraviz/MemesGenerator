@@ -1,0 +1,42 @@
+.profile {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid var(--button);
+}
+
+svg {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    fill: var(--button);
+    /* background-color: var(--main-bg); */
+}
+
+svg:hover {
+    fill: #01bd78;
+    cursor: pointer;
+}
+
+
+h4 {
+    color: var(--text);
+    margin-top: 0;
+}
+
+.about-me {
+    margin: 40px;
+    padding: 40px;
+    border-radius: 16px;
+    background-color: var(--nav-bg);
+}
+
+.about-me h1 {
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.about-me button {
+    color: var(--nav-bg);
+    font-size: 20px;
+}

@@ -8,10 +8,6 @@ var gSelectedLineIdx = -1
 
 // === SERVICE FUNCTIONS ===
 function createLine(pos, txt) {
-    // if (gLines.length >= 2) {
-    //     alert(`Can't add another line. Currently support up to 2 lines.`)
-    //     return;
-    // }
     const ctx = getCtx()
     const size = 35
     ctx.font = `${size}px Arial`
@@ -62,7 +58,7 @@ function deleteLine(selectedLineId) {
         return line.id !== selectedLineId
     })
     gLines = filteredGLines
-    
+
     if (gLines.length >= 1) {
         gSelectedLineIdx = gLines.length - 1
         gLines.forEach((line) => {
@@ -70,7 +66,7 @@ function deleteLine(selectedLineId) {
         })
         gLines[gSelectedLineIdx].isChosen = true
         console.log('gSelectedLineIdx', gSelectedLineIdx);
-    } 
+    }
 }
 
 function changeLine() {
@@ -94,6 +90,12 @@ function alignToRight() {
 
 function alignToCenter() {
     gLines[gSelectedLineIdx].pos.x = 200 - gLines[gSelectedLineIdx].width / 2
+}
+
+function removeLinesFocus() {
+    gLines.forEach((line) => {
+        line.isChosen = false
+    })
 }
 
 // === HELPERS ===

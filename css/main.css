@@ -7,6 +7,8 @@
 @import url(components/memes-editor.css);
 @import url(components/img-container.css);
 @import url(components/color-pickers.css);
+@import url(components/seved-memes.css);
+@import url(components/profile.css);
 
 /* MEDIA QUERIES */
 @import url(mq.css);

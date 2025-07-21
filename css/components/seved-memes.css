@@ -1,0 +1,63 @@
+.saved-meme-canvas {
+    background-color: var(--main-bg);
+    
+}
+
+.editor-name {
+    grid-area: editor-name;
+}
+
+.last-edited {
+    grid-area: last-edited;
+}
+
+.meme-card button {
+    grid-area: button;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--main-bg);
+}
+
+.meme-card button:hover {
+    background-color: #5b5b5b;
+}
+
+.saved-meme-canvas {
+    grid-area: saved-meme-canvas;
+}
+
+.meme-card {
+    display: grid;
+    grid-template-columns: 2;
+    grid-template-rows: 3;
+    
+    grid-template-areas: 
+    "button button"
+    "saved-meme-canvas saved-meme-canvas"
+    "editor-name last-edited";
+    
+    width: 150px;
+    
+    flex-direction: column;
+    gap: 1em;
+    
+    background-color: var(--nav-bg);
+    border-radius: 16px;
+    padding: 16px;
+
+    margin: 16px;
+
+}
+
+.meme-card p {
+    margin: 0;
+    color: var(--text);
+}
+
+.saved-memes {
+    display: none;
+    gap: 24px;
+}
+
+
